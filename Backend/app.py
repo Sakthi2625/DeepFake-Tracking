@@ -24,6 +24,7 @@ def home():
 def search():
     query = "deepfake"
     results = search_videos(query)
+    print("Test")
     return {"results": results}
 
 @app.route('/upload', methods=['POST'])
