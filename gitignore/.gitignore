@@ -1,0 +1,32 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore environment files
+.env
+*.env
+
+# Ignore virtual environments
+venv/
+.env/
+
+# Ignore extracted frames and uploaded videos (if you don’t want to track them)
+uploads/
+frames/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore log files and temp data
+*.log
+*.tmp
+
+# Ignore the IDE settings (if using VS Code or PyCharm)
+.vscode/
+.idea/
+
+# Ignore build artifacts (if using React for the frontend)
+node_modules/
+build/

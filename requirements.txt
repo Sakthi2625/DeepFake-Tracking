@@ -1,0 +1,6 @@
+flask                # For the web server (if you’re using Flask)  
+opencv-python       # For video processing  
+Pillow              # For image handling  
+imagehash           # For generating perceptual hashes  
+requests            # For making HTTP requests (if needed for web scraping)  
+python-dotenv       # For loading environment variables  
