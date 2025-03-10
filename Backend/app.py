@@ -1,48 +1,40 @@
-from flask import Flask, request, jsonify
-from fingerprint_module import extract_frames, generate_video_hash
-from Hash_matching_module import compare_hashes
-from webscrapper_module import search_videos
-from Visualization_module import visualize_frames
-
+from flask import Flask, request, jsonify, render_template
 import os
-
-
+from flask_cors import CORS  # ✅ Import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
+# Set Upload Folder
 UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-UPLOAD_FOLDER = os.path.abspath('uploads')
+# Ensure templates folder exists (if not already present)
+TEMPLATE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+if not os.path.exists(TEMPLATE_FOLDER):
+    os.makedirs(TEMPLATE_FOLDER)
 
+# Home Route - Serve `index.html`
 @app.route('/')
 def home():
-    return "Backend is working!"
+    return render_template('index.html')  # ✅ Serves the frontend
 
-@app.route('/search')
-def search():
-    query = "deepfake"
-    results = search_videos(query)
-    print("Test")
-    return {"results": results}
-
+# Upload Route
 @app.route('/upload', methods=['POST'])
 def upload_video():
     if 'video' not in request.files:
-        return jsonify({"error": "No video file provided"+str(request.files)}), 400
+        return jsonify({'error': 'No file part'}), 400
 
-    video = request.files['video']
-    if video.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+    file = request.files['video']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
 
-    # Save video to the existing uploads folder
-    video_path = os.path.join(app.config['UPLOAD_FOLDER'], video.filename)
-    video.save(video_path)
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(file_path)
+    return jsonify({'message': 'File uploaded successfully', 'file_path': file_path})
 
-    return jsonify({"message": "Video uploaded successfully!", "path": video_path})
+if __name__ == '__main__':
+    app.run(debug=True)
 
-
-if __name__ == "__main__":
-    print("Server is starting...")
-    app.run(host="0.0.0.0", port=5001, debug=True)
