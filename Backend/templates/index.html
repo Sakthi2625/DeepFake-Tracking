@@ -29,6 +29,17 @@
             width: 100%;
             border-radius: 10px;
         }
+        #detectionResults {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #e9ecef;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -50,6 +61,12 @@
         <video id="videoPreview" controls></video>
 
         <p id="statusMessage" class="mt-3 text-center"></p>
+
+        <!-- Deepfake Detection Results -->
+        <div id="detectionResults">
+            <h5 class="text-center">Deepfake Detection Results</h5>
+            <pre id="resultsContent"></pre>
+        </div>
     </div>
 </div>
 
@@ -84,9 +101,17 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             let response = JSON.parse(xhr.responseText);
             document.getElementById('statusMessage').innerText = response.message;
 
+            // Show uploaded video
             let videoPreview = document.getElementById('videoPreview');
             videoPreview.src = URL.createObjectURL(file);
             videoPreview.style.display = 'block';
+
+            // Display detection results
+            if (response.detection_results) {
+                let resultsDiv = document.getElementById("detectionResults");
+                resultsDiv.style.display = "block";
+                document.getElementById("resultsContent").innerText = JSON.stringify(response.detection_results, null, 2);
+            }
         } else {
             document.getElementById('statusMessage').innerText = 'Upload failed!';
         }
