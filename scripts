@@ -1,0 +1,11 @@
+from transformers import pipeline
+
+# Load the model
+pipe = pipeline("image-classification", model="prithivMLmods/Deepfake-Detection-Exp-02-22")
+
+# Test on an image
+image_path = "sample_frame.jpg"  # Change this to your frame path
+result = pipe(image_path)
+
+# Print results
+print(result)
