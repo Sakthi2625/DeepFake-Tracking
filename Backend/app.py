@@ -5,6 +5,8 @@ import torch
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 from flask_cors import CORS
 from PIL import Image
+from tracking import extract_frames_and_hash
+from database import init_db, store_hashes, check_duplicate
 
 app = Flask(__name__)
 CORS(app)
@@ -91,6 +93,18 @@ def upload_video():
 
     # Perform deepfake detection
     detection_results = detect_deepfake(extracted_frames)
+
+     # Extract frames and compute pHash
+    extracted_hashes = extract_frames_and_hash(file_path, file.filename)
+
+    # Check if the video is already in DB
+    for phash in extracted_hashes.values():
+        if check_duplicate(phash):
+            return jsonify({'message': 'Duplicate Video Detected! Re-upload Blocked.'}), 409  # 409 Conflict
+
+    # Store new pHashes
+    store_hashes(file.filename, extracted_hashes)
+
 
     return jsonify({
         'message': 'File uploaded, frames extracted, and deepfake detection completed',
