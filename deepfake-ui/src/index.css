@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --brand-start: #6d28d9; /* purple-700 */
+  --brand-end: #7c3aed;   /* violet-600 */
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply text-white antialiased;
+  background:
+    radial-gradient(60rem 60rem at 10% 10%, rgba(124, 58, 237, 0.25), transparent 60%),
+    radial-gradient(50rem 50rem at 90% 30%, rgba(109, 40, 217, 0.25), transparent 60%),
+    linear-gradient(180deg, #0b0b12 0%, #121120 100%);
+}
+
+.code-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 transparent;
+}
+
+.glass {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
