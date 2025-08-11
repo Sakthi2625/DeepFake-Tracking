@@ -9,13 +9,13 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "axios": "^1.6.2",              // For making API requests to the backend
-    "react": "^18.0.0",             // Core React library
-    "react-dom": "^18.0.0",         // React DOM rendering
-    "react-scripts": "5.0.1"        // React build scripts
+    "axios": "^1.6.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-scripts": "^0.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.0.0"             // For catching code issues (optional)
+    "eslint": "^8.0.0"
   },
   "browserslist": {
     "production": [
